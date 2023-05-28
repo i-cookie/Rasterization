@@ -51,7 +51,7 @@ This function uses vector cross product. If a point $P(x,y)$ is inside the trian
 
 when the sample rate is low, there are lots of jaggies on the edge of triangles:
 
-![jaggies](localimg\image-20230312202814033.png)
+![jaggies](./localimg\image-20230312202814033.png)
 
 jaggies can be clearly seen on the center and bottom-right triangles. So we use Super Sample Anti-Aliasing to make the edge smooth.
 
@@ -90,19 +90,19 @@ Here *sample_unit* equals to $\sqrt{sample\_rate}$, because we use a grid distri
 
 The following screenshots shows the result under different sample rates:
 
-![4xSSAA](localimg\image-20230312203707216.png)
+![4xSSAA](./localimg\image-20230312203707216.png)
 
 
 
-![9xSSAA](localimg\image-20230312203730450.png)
+![9xSSAA](./localimg\image-20230312203730450.png)
 
-![image-20230312203747624](localimg\image-20230312203747624.png)
+![image-20230312203747624](./localimg\image-20230312203747624.png)
 
 With increment of sample rate, the jaggies are reduced. When zooming in, we can see the averaged color of edge points (16x SSAA)
 
-![image-20230312210919457](localimg\image-20230312210919457.png)
+![image-20230312210919457](./localimg\image-20230312210919457.png)
 
-![image-20230312210937115](localimg\image-20230312210937115.png)
+![image-20230312210937115](./localimg\image-20230312210937115.png)
 
 Note that the black border is also being lighter. That is because in this project, lines are **not** anti-aliased, so the black line will be averaged by the white subsamples around it.
 
@@ -112,13 +112,13 @@ In the last part of this report, I will talk about some other ways I tried to op
 
 Screenshots below are more results with SSAA, some other artifacts like moire pattern can be solved (the last screenshot, which is hardcore 01 svg):
 
-![image-20230312205003403](localimg\image-20230312205003403.png)
+![image-20230312205003403](./localimg\image-20230312205003403.png)
 
-![image-20230312205018537](localimg\image-20230312205018537.png)
+![image-20230312205018537](./localimg\image-20230312205018537.png)
 
-![image-20230312205109265](localimg\image-20230312205109265.png)
+![image-20230312205109265](./localimg\image-20230312205109265.png)
 
-![image-20230312205155667](localimg\image-20230312205155667.png)
+![image-20230312205155667](./localimg\image-20230312205155667.png)
 
 ## 3. Transforms
 
@@ -126,17 +126,17 @@ In this part, we support the transformations of the image. Using 2D model matrix
 
 The image below is a robot:
 
-![image-20230312210118118](localimg\image-20230312210118118.png)
+![image-20230312210118118](./localimg\image-20230312210118118.png)
 
 by setting the parameters in the .svg file, we can transform the robot, rotate his body, arms and legs, change the color of the tiles to be clothes, now he is dancing like a idol!!
 
-![image-20230312213606922](localimg\image-20230312213606922.png)
+![image-20230312213606922](./localimg\image-20230312213606922.png)
 
 ## 4. Barycentric coordinates and interpolated color triangle
 
 Color can change inside a triangle. When only the colors of vertices are given, we need to use interpolation to calculate the color of the triangle.
 
-![image-20230312215535252](localimg\image-20230312215535252.png)
+![image-20230312215535252](./localimg\image-20230312215535252.png)
 
 Basically, interpolation is a way to estimate the value of an arbitrary point in a discrete function. An image is like a 2D discrete function, so we can use interpolation to estimate the color of any point. Specifically, the position of any point inside a triangle can be expressed by a positive linear combination of the coordinates of the three vertices, and the coefficients add up to be 1. i.e.
 $$
@@ -158,7 +158,7 @@ if (p_in_triangle(x+0.5*sample_unit, y+0.5*sample_unit, x0, y0, x1, y1, x2, y2))
 
 We can use this to finish test 7:
 
-![image-20230312215618163](localimg\image-20230312215618163.png)
+![image-20230312215618163](./localimg\image-20230312215618163.png)
 
 ## 5. Texture mapping
 
@@ -181,7 +181,7 @@ return mip.get_texel(tx, ty);
 
 
 
-![image-20230312222915133](localimg\image-20230312222915133.png)
+![image-20230312222915133](./localimg\image-20230312222915133.png)
 
 we can see lots of artifacts in the image.
 
@@ -195,7 +195,7 @@ u_{up}=s\times u_{11}+(1-s)\times u_{01} \\
 u_{down}=s\times u_{10}+(1-s)\times u_{00} \\
 Color(P)=t\times u_{up}+(1-t)\times u_{down}
 $$
-![image-20230312221831982](localimg\image-20230312221831982.png)
+![image-20230312221831982](./localimg\image-20230312221831982.png)
 
 ```c++
 auto& mip = mipmap[level];
@@ -212,11 +212,11 @@ return u;
 
 The latter performs better
 
-![image-20230312222931247](localimg\image-20230312222931247.png)
+![image-20230312222931247](./localimg\image-20230312222931247.png)
 
 but not enough. We can combine them with 16x SSAA:
 
-![image-20230312222949096](localimg\image-20230312222949096.png)![image-20230312222959499](localimg\image-20230312222959499.png)
+![image-20230312222949096](./localimg\image-20230312222949096.png)![image-20230312222959499](./localimg\image-20230312222959499.png)
 
 ## 6. Mipmap
 
@@ -251,17 +251,17 @@ else if (sp.psm == CGL::P_LINEAR) {
 
 Now lets compare the original image, **trilinear interpolation** and **16x SSAA**
 
-![image-20230312230002577](localimg\image-20230312230002577.png)
+![image-20230312230002577](./localimg\image-20230312230002577.png)
 
-![image-20230312225936524](localimg\image-20230312225936524.png)
+![image-20230312225936524](./localimg\image-20230312225936524.png)
 
-![image-20230312230021604](localimg\image-20230312230021604.png)
+![image-20230312230021604](./localimg\image-20230312230021604.png)
 
 We can see very good effect of trilinear interpolation. Overall it is not as clear as16x SSAA, but there can be even less jaggies than SSAA:
 
-![image-20230312230324299](localimg\image-20230312230324299.png)
+![image-20230312230324299](./localimg\image-20230312230324299.png)
 
-![image-20230312230456773](localimg\image-20230312230456773.png)
+![image-20230312230456773](./localimg\image-20230312230456773.png)
 
 It seems that mipmap uses lots of space, but the total memory cost is a power series, which add up to be $\dfrac{4}{3}\times width\times height$, which is just $\dfrac{1}{3}$ more than the original cost, far less than SSAA. 
 
@@ -271,13 +271,13 @@ Then we can consider using anisotropic filtering. If we use Anisotropic filterin
 
 The screenshots below are different level sampling and texture mapping modes:
 
-![image-20230312230642332](localimg\image-20230312230642332.png)
+![image-20230312230642332](./localimg\image-20230312230642332.png)
 
-![image-20230312230653628](localimg\image-20230312230653628.png)
+![image-20230312230653628](./localimg\image-20230312230653628.png)
 
-![image-20230312235147886](localimg\image-20230312235147886.png)
+![image-20230312235147886](./localimg\image-20230312235147886.png)
 
-![image-20230312230704717](localimg\image-20230312230704717.png)
+![image-20230312230704717](./localimg\image-20230312230704717.png)
 
 ## 7. My tries and reflections in optimizing antialiasing
 
@@ -310,7 +310,7 @@ In this way, I can detect the "**edge pixels**", super sample them, and insert t
 
 I thought this should work, but there were lots of white lines on edges of triangles:
 
-![image-20230312233229883](localimg\image-20230312233229883.png)
+![image-20230312233229883](./localimg\image-20230312233229883.png)
 
 This is probably because my edge judgement is not perfect, then some pixels are judged as "internal point" by one triangle, while as "edge point" by another, then it is not well super-sampled. After hours of debugging, I finally gave up due to lack of time.
 
@@ -320,7 +320,7 @@ I still want to keep the traversing inside the triangle rather than the bound bo
 
 First, I sort the vertices by $y$ coordinates and partitioned a triangle into two parts, one with flat bottom and one with flat top
 
-![image-20230312234016535](localimg\image-20230312234016535.png)
+![image-20230312234016535](./localimg\image-20230312234016535.png)
 
 Then I implemented a function to rasterize the "flat triangles". I have to know the $\dfrac{1}{slope}$ of two lines ($\dfrac{1}{k_{P0P1}}$ and $\dfrac{1}{k_{P0P3}}$ for example), and calculate the left-most and right-most point of each row. For some point $P(x_n,y_n)$ in the $n^{th}$ row, if $left\_most\_x_{n-1}< x_n< right\_most\_x_{n-1}$ and $left\_most\_x_{n+1}< x_n< right\_most\_x_{n+1}$, it is an "internal point", otherwise it is an "edge point", which should be super-sampled.
 
